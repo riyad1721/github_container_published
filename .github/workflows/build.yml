@@ -1,0 +1,21 @@
+name: build
+
+on:
+  push:
+
+jobs:
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the hello-docker Docker image
+        run: |
+          docker build . --tag ghcr.io/riyad1721/hello-docker-gcr-demo:latest
+      - name: Save Docker image to disk
+        run: |
+          docker save ghcr.io/riyad1721/hello-docker-gcr-demo:latest -o hello-docker-image.tar
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello-docker-image
+          path: hello-docker-image.tar
