@@ -1,19 +1,27 @@
 # .github/workflows/build-docker-image.yml
 name: Build Docker Image
-on: [push]
+on:
+  workflow_call:  
+    inputs:
+      image-name:
+        required: true
+        type: string
+      image-tag:
+        required: true
+        type: string
 jobs:
-  build-docker-image:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build the hello-docker Docker image
+      - name: Build the Docker image
         run: |
-          docker build . --tag ghcr.io/riyad1721/hello-docker-gcr-demo:latest
+          docker build . --tag ${{ inputs.image-name }}:${{ inputs.image-tag }}
       - name: Save Docker image to disk
         run: |
-          docker save ghcr.io/riyad1721/hello-docker-gcr-demo:latest -o hello-docker-image.tar
+          docker save ${{ inputs.image-name }}:${{ inputs.image-tag }} -o docker-image.tar
       - name: Upload Docker image
         uses: actions/upload-artifact@v3
         with:
-          name: hello-docker-image
-          path: hello-docker-image.tar
+          name: docker-image
+          path: docker-image.tar
