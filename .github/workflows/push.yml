@@ -1,8 +1,7 @@
-name: push
-
+name: Push Docker Image
 on:
   workflow_run:
-    workflows: ["build"]
+    workflows: ["Build Docker Image"]  # The name of the build workflow
     types:
       - completed
 jobs:
@@ -12,7 +11,7 @@ jobs:
       - name: Download Docker image
         uses: actions/download-artifact@v3
         with:
-          name: hello-docker-image
+          name: hello-docker-image  
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
