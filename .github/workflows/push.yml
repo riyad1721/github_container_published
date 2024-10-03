@@ -1,37 +1,30 @@
-# .github/workflows/push-docker-image.yml
 name: Push Docker Image
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  
 
 jobs:
   push-docker-image:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Call Build Docker Image Workflow
-        uses: ./.github/workflows/build.yml
-        with:
-          image-name: ghcr.io/riyad1721/hello-docker-gcr-demo
-          image-tag: latest
-
       - name: Download Docker image
         uses: actions/download-artifact@v3
         with:
-          name: docker-image
-          
+          name: hello-docker-image
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_TOKEN }}
-          
       - name: Load Docker image
         run: |
-          docker load -i docker-image.tar
-          
-      - name: Push the Docker image
+          docker load -i hello-docker-image.tar
+      - name: Push the hello-docker Docker image
         run: |
           docker push ghcr.io/riyad1721/hello-docker-gcr-demo:latest
+
+  build:
+    uses: ./.github/workflows/build.yml
