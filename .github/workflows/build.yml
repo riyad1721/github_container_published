@@ -1,6 +1,8 @@
 name: Build Docker Image
 on:
   push:
+    branches:
+      - main
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
@@ -12,7 +14,7 @@ jobs:
       - name: Save Docker image to disk
         run: |
           docker save ghcr.io/riyad1721/hello-docker-gcr-demo:latest -o hello-docker-image.tar
-      - name: Upload Docker image
+      - name: Upload Docker image as an artifact
         uses: actions/upload-artifact@v3
         with:
           name: hello-docker-image
