@@ -8,6 +8,7 @@ on:
 jobs:
   push-docker-image:
     runs-on: ubuntu-latest
+    uses: ./.github/workflows/build.yml
     steps:
       - name: Download Docker image
         uses: actions/download-artifact@v3
@@ -26,5 +27,3 @@ jobs:
         run: |
           docker push ghcr.io/riyad1721/hello-docker-gcr-demo:latest
 
-  build:
-    uses: ./.github/workflows/build.yml
