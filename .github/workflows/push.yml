@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Build Docker Image Workflow
-        uses: ./.github/workflows/build-docker-image.yml
+        uses: ./.github/workflows/build.yml
         with:
           image-name: ghcr.io/riyad1721/hello-docker-gcr-demo
           image-tag: latest
